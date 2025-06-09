@@ -1,0 +1,854 @@
+DEVOPS LAB MANUAL
+
+1) Introduction to Maven and Gradle: Overview of Build Automation Tools,
+Key Differences Between Maven and Gradle, Installation and Setup
+
+Maven and Gradle are powerful build automation tools used mainly in Java projects. They
+help automate tasks like compilation, dependency management, packaging, testing, and
+deployment of code.
+They are widely used in modern software development to improve efficiency, consistency,
+and reproducibility in project builds.
+
+1. Overview of Build Automation Tools
+A build automation tool helps automate the software build process.
+It simplifies the following tasks:
+• Code compilation
+• Dependency management
+• Packaging to JAR/WAR
+• Unit testing
+• Deployment
+Benefits:
+• Saves time and manual effort
+• Ensures consistency across environments
+• Supports CI/CD (Continuous Integration/Continuous Deployment)
+
+2. Key Differences Between Maven and Gradle
+Feature Maven Gradle
+Build Script XML-based (pom.xml) Groovy or Kotlin DSL (build.gradle)
+Build Speed Slower (no incremental
+builds)
+Faster (supports incremental + parallel
+builds)
+Flexibility Less flexible, more
+structured Highly customizable and scriptable
+Ease of Use Easier for beginners
+(declarative)
+Slightly harder (requires DSL
+understanding)
+Dependency
+Mgmt. Central repository Uses Maven/Ivy-compatible
+repositories
+Used In Java, Spring projects Java, Kotlin, Android, multi-language
+projects
+Plugins Rich plugin support, but
+static
+Dynamic plugin system, easier
+customization
+
+3. Installation and Setup
+Maven Installation Steps
+1. Download Maven:
+URL: https://maven.apache.org/download.cgi
+2. Extract Archive:
+Extract the ZIP to your preferred directory (e.g., C:\apache-maven-3.9.x)
+3. Set Environment Variables:
+o MAVEN_HOME → Path to Maven folder
+o Add %MAVEN_HOME%\bin to the system PATH variable
+4. Verify Installation:
+o Open Command Prompt
+o Type: mvn -v
+o Output shows Maven version and Java version
+
+Gradle Installation Steps
+1. Download Gradle:
+URL: https://gradle.org/releases
+2. Extract Archive:
+Extract the ZIP to a location (e.g., C:\gradle-8.x)
+3. Set Environment Variables:
+o GRADLE_HOME → Path to Gradle folder
+o Add %GRADLE_HOME%\bin to the system PATH variable
+4. Verify Installation:
+o Open Command Prompt
+o Type: gradle -v
+o Output shows Gradle version and Java environment
+
+
+
+2nd program
+
+2)Working with Maven: Creating a Maven Project, Understanding the POM
+File, Dependency Management and Plugins.
+
+1. Create a Maven Project in IntelliJ
+• Open IntelliJ IDEA
+• Go to File>New>Project. A New Project Window opens up
+• Choose java
+• Enter the Project details
+▪ Enter the Project name
+▪ Select Build system – Maven
+▪ Select JDK 17.0.12 version
+• Click on Create
+IntelliJ will generate the Maven project with the standard structure.
+MyMavenApp/
+├── pom.xml
+├── src/
+│ ├── main/
+│ │ └── java/
+│ │ └── org/
+│ │ └── example/
+│ │ └── App.java
+│ └── test/
+│ └── java/
+│ └── org/
+│ └── example/
+│ └── AppTest.java
+▪ pom.xml: The main Maven file with project info, dependencies, and build settings.
+▪ src/main/java: Folder for your application’s source code (e.g., com.example.App.java).
+▪ src/test/java: Folder for your test code (e.g., AppTest.java).
+
+2. Understanding the pom.xml File
+<project>
+ <modelVersion>4.0.0</modelVersion>
+ <groupId>org.example</groupId>
+ <artifactId>MyMavenApp</artifactId>
+ <version>1.0-SNAPSHOT</version>
+</project>
+Explanation:
+The pom.xml file is the core configuration file for a Maven project. It defines:
+• groupId: The base package or domain name (e.g., organization).
+• artifactId: The name of the project.
+• version: The current version of the project.
+
+3. Dependency Management
+Dependencies are external Java libraries required for your project to compile and run. To add
+a dependency, copy its XML snippet from https://mvnrepository.com and paste it inside the
+<dependencies> section.
+Example: Adding JUnit Dependency
+<dependency>
+ <groupId>junit</groupId>
+ <artifactId>junit</artifactId>
+ <version>4.13.2</version>
+ <scope>test</scope>
+</dependency>
+In this example, JUnit is added for testing. Maven will automatically download and manage
+these dependencies from its central repository.
+
+4. Plugins in Maven
+Plugins are used to customize the build process. The maven-compiler-plugin specifies the
+Java version for compiling the source code.
+Example: Add Compiler Plugin
+<build>
+ <plugins>
+ <plugin>
+ <groupId>org.apache.maven.plugins</groupId>
+ <artifactId>maven-compiler-plugin</artifactId>
+ <version>3.8.1</version>
+ <configuration>
+ <source>1.8</source>
+ <target>1.8</target>
+ </configuration>
+ </plugin>
+ </plugins>
+</build>
+
+5. App.java – Main Class
+Path: src/main/java/org/example/App.java
+package org.example.app;
+public class App {
+ public static void main(String[] args) {
+ System.out.println("Hello this is a demo Maven project!");
+ }
+}
+Explanation:
+This is the main class. It prints "Hello this is a demo Maven project!" when executed.
+
+6. AppTest.java – Unit Test Class
+Path: src/test/java/org/example/AppTest.java
+package org.example.app;
+import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+public class AppTest {
+ @Test
+ public void testMain() {
+ assertEquals("Hello", "Hello");
+ }
+}
+Explanation:
+This is a test class using JUnit to verify functionality.
+
+7. Build, Run, and Test the Maven Project
+1. Compile the project
+• mvn compile
+• This compiles the source code (src/main/java).
+2. Run the tests
+• mvn test
+• This runs unit tests present in src/test/java.
+• Output example:
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
+3. Package the project into a JAR
+• mvn package
+• This compiles, tests, and packages your application into a .jar file.
+• Output file: target/MyMavenApp-1.0-SNAPSHOT.jar.
+4. Run the main class from the JAR
+• java -cp target/MyMavenApp-1.0-SNAPSHOT.jar org.example.App
+• Output:
+Hello this is a demo Maven project!
+
+
+
+3rd program
+
+3) Working with Gradle: Setting Up a Gradle Project, Understanding
+Build Scripts (Groovy and Kotlin DSL), Dependency Management and
+Task Automation
+1. Create a Gradle Project in IntelliJ (Common to both)
+1. Open IntelliJ IDEA
+2. Go to File > New > Project
+3. Select Java
+4. In the next screen:
+• Choose Build system – Gradle
+• Select Groovy DSL or Kotlin DSL
+• Set JDK to 17.0.12
+• Enter Project Name (e.g., MyGradleApp)
+5. Click Create
+Project Structure Generated:
+MyGradleApp/
+├── build.gradle(.kts) (Groovy: build.gradle | Kotlin: build.gradle.kts)
+├── settings.gradle(.kts)
+├── src/
+│ ├── main/java/org/example/App.java
+│ └── test/java/org/example/AppTest.java
+2. Add the Main java class
+Navigate to src/main/java/org/example and create a new class named App.
+App.java:
+package org.example;
+public class App {
+ public static void main(String[] args) {
+ System.out.println("Hello this is a demo gradle project");
+ }
+}
+3. Understanding build.gradle vs build.gradle.kts
+This file defines project settings such as plugins, repositories, and dependencies.(build file)
+Groovy DSL (build.gradle):
+plugins {
+ id 'java'
+ id 'application'
+}
+group = 'org.example'
+version = '1.0'
+repositories {
+ mavenCentral()
+}
+dependencies {
+ testImplementation 'junit:junit:4.13.2'
+}
+application {
+ mainClass = 'org.example.App'
+}
+task hello {
+ doLast {
+ println 'Welcome to Gradle!'
+ }
+}
+Kotlin DSL (build.gradle.kts):
+plugins {
+ id("java")
+ id("application")
+}
+group = "org.example"
+version = "1.0"
+repositories {
+ mavenCentral()
+}
+dependencies {
+ testImplementation("junit:junit:4.13.2")
+}
+application {
+ mainClass.set("org.example.App")
+}
+tasks.register("hello") {
+ doLast {
+ println("Welcome to Gradle!")
+ }
+}
+After editing, IntelliJ will prompt: "Load Gradle Changes?" — click Yes to apply the
+changes.
+4. Dependency Management
+To add external libraries to your project:
+1. Visit https://mvnrepository.com.
+2. Search for the required library.
+3. Copy the appropriate dependency snippet for Groovy or Kotlin.
+4. Paste it within the dependencies block.
+Groovy DSL (build.gradle):
+dependencies {
+ testImplementation 'junit:junit:4.13.2'
+}
+Kotlin DSL (build.gradle.kts):
+dependencies {
+ testImplementation("junit:junit:4.13.2")
+}
+5. Run the Project
+Using Terminal
+In IntelliJ's terminal or your OS terminal:
+./gradlew run
+Output:
+> Task :run
+Hello Gradle!
+BUILD SUCCESSFUL
+6. Add and Run a Unit Test
+Create the test file at: src/test/java/org/example/AppTest.java
+AppTest.java:
+package org.example;
+import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+public class AppTest {
+ @Test
+ public void testMain() {
+ assertEquals("Hello", "Hello");
+ }
+}
+Run the test:
+./gradlew test
+Output:
+> Task :test
+BUILD SUCCESSFUL
+1 test completed, 0 failed
+7. Task Automation (Custom Gradle Task)
+Gradle allows defining custom tasks to perform specific actions during the build process.
+Groovy DSL:
+task hello {
+ doLast {
+ println 'Hello from Gradle!'
+ }
+}
+Kotlin DSL:
+tasks.register("hello") {
+ doLast {
+ println("Hello from Gradle!")
+ }
+}
+To execute the custom task, use the terminal and run:
+./gradlew hello
+Expected Output:
+> Task :hello
+Hello from Gradle!
+
+
+4th program
+
+4) Practical Exercise: Build and Run a Java Application with Maven,
+Migrate the Same Application to Gradle.
+Part 1: Build and Run a Java Application with Maven
+Step 1: Create a Maven Project in IntelliJ IDEA
+• Open IntelliJ IDEA
+• Go to File>New>Project. A New Project Window opens up
+• Choose java
+• Enter the Project details
+▪ Enter the Project name
+▪ Select Build system – Maven
+▪ Select JDK 17.0.12 version
+• Click on Create
+Step 2: Understand & edit pom.xml
+The basic POM file defines project coordinates and dependencies:
+<project>
+ <modelVersion>4.0.0</modelVersion>
+ <groupId>com.example</groupId>
+ <artifactId>my-maven-app</artifactId>
+ <version>1.0-SNAPSHOT</version>
+
+ <dependencies>
+ <!-- JUnit for testing -->
+ <dependency>
+ <groupId>junit</groupId>
+ <artifactId>junit</artifactId>
+ <version>4.13.2</version>
+ <scope>test</scope>
+ </dependency>
+ </dependencies>
+ <build>
+ <plugins>
+ <!-- Compiler plugin to use Java 1.8 -->
+ <plugin>
+ <groupId>org.apache.maven.plugins</groupId>
+ <artifactId>maven-compiler-plugin</artifactId>
+ <version>3.8.1</version>
+ <configuration>
+ <source>1.8</source>
+ <target>1.8</target>
+ </configuration>
+ </plugin>
+ </plugins>
+ </build>
+</project>
+Step 3: Write Java Code
+Create the main application class at:
+src/main/java/com/example/App.java
+package com.example;
+public class App {
+ public static void main(String[] args) {
+ System.out.println("Hello Maven!");
+ }
+}
+Create a test class at:
+src/test/java/com/example/AppTest.java
+package com.example;
+import org.junit.Test;
+import static org.junit.Assert.*;
+public class AppTest {
+ @Test
+ public void testMain() {
+ assertEquals("Hello", "Hello");
+ }
+}
+Step 4: Build and Run with Maven
+Use the terminal or IntelliJ terminal to execute:
+mvn compile # Compile the source code
+mvn test # Run the tests
+mvn package # Build the jar file
+Expected output when running the application:
+Hello Maven!
+Part 2: Migrate the Same Application to Gradle
+Step 1: Remove Maven Files
+Delete the following from your project root:
+• pom.xml
+• .mvn/ directory
+• target/ directory
+Step 2: Initialize Gradle Project
+Run the following command:
+gradle init
+• Choose the application template
+• Language: Java
+• DSL: Groovy
+• Accept default options to create the Gradle project
+Step 3: Move Your Java Source Code
+Ensure the Java files are located at:
+• src/main/java/com/example/App.java
+• src/test/java/com/example/AppTest.java
+Step 4: Edit build.gradle
+Replace the contents of build.gradle with the following:
+plugins {
+ id 'application'
+ id 'java'
+}
+group = 'org.example'
+version = '1.0'
+repositories {
+ mavenCentral()
+}
+dependencies {
+ testImplementation 'org.junit.jupiter:junit-jupiter:5.9.2'
+}
+java {
+ sourceCompatibility = JavaVersion.VERSION_1_8
+ targetCompatibility = JavaVersion.VERSION_1_8
+}
+application {
+ mainClass = 'org.example.App'
+}
+Step 5: Build and Run with Gradle
+Run the following commands in the terminal:
+gradle build # Build the project
+gradle test # Run tests
+gradle run # Run the application
+Expected output when running the application:
+> Task :run
+Hello Maven!
+BUILD SUCCESSFUL
+
+
+5th program 
+
+5) Introduction to Jenkins: What is Jenkins?, Installing Jenkins on Local
+or Cloud Environment, Configuring Jenkins for First Use.
+Jenkins is a free and open-source automation tool used for Continuous Integration (CI) and
+Continuous Delivery (CD). It helps developers automate the process of building, testing, and
+deploying applications.
+Key Features
+• CI/CD Support: Automates code integration and deployment.
+• Plugins: Offers many plugins to integrate with tools such as Git, Maven, Docker, etc.
+• Pipeline Support: Pipelines can be written as code using Groovy or YAML.
+• Cross-platform: Available on Windows, Linux, and macOS.
+• Customizable: Easy to extend functionality using plugins.
+Installing Jenkins Using WAR File (Cross-Platform Method)
+Step 1: Download WAR File
+• Download the Jenkins .war file from the official Jenkins website.
+• Choose: Generic Java Package (.war).
+Step 2: Run Jenkins
+• Open a terminal/command prompt.
+• Navigate to the folder where the .war file is saved.
+• Run:
+java -jar jenkins.war --httpPort=8080
+• Jenkins starts on default port 8080.
+Step 3: Access Jenkins in Browser
+• Visit http://localhost:8080 in your browser.
+Step 4: Initial Setup of Jenkins
+• Enter the administrator password shown in the console.
+• Click "Install Suggested Plugins".
+• Create an admin user.
+• Jenkins is now ready (To stop Jenkins, press CTRL + C in the terminal.)
+Configuring Jenkins for First Use (Simplified)
+Jenkins First Setup (Simple)
+1Dashboard
+• New Item – Make jobs
+• Manage Jenkins – Settings, users, plugins
+• Build History – Old builds
+• Credentials – Save passwords
+2Add Plugins
+• Go to: Manage Jenkins → Manage Plugins
+• Search & click Install without Restart
+
+
+6th progarm
+
+6) Continuous Integration with Jenkins: Setting Up a CI Pipeline,
+Integrating Jenkins with Maven/Gradle, Running Automated Builds and
+Tests.
+1. Install Jenkins
+• Download Jenkins from https://www.jenkins.io
+• Run the Jenkins WAR file or use the native installer
+• Access the Jenkins dashboard at: http://localhost:8080
+2. Open your GitHub account and create a new repository
+• It is recommended to use the same name as your Maven or Gradle project (optional
+for consistency)
+3. Initialize Git in your project and push to GitHub
+In your local project directory, run the following commands:
+git init
+git add .
+git commit -m "first commit"
+git remote add origin <git-repository-url>
+git push -u origin master (or main, depending on default branch)
+4. Verify changes on GitHub
+• Refresh your GitHub repository page to confirm that the files have been uploaded
+5. Create a New Job in Jenkins
+• In Jenkins, click "New Item"
+• Select "Freestyle Project", give it a name, and click OK
+6. Provide a general description of your project
+• Under the "General" section, enter a brief description (optional but helpful)
+7. Configure Source Code Management
+• Under "Source Code Management", select "Git"
+• Enter your GitHub repository URL
+• If the repository is private, add your GitHub credentials using "Add" option
+8. Configure the Build Step
+• Go to the "Build" section
+• Click "Add build step" > "Execute Windows batch command"
+• Enter the appropriate build command:
+▪ For Maven: mvn clean test
+▪ For Gradle: gradle clean test
+9. Apply and Save the Configuration
+• Click "Apply", then click "Save"
+10. Build the Project
+• Click "Build Now" on the project dashboard
+• Jenkins will begin the build process based on your configuration
+11. View Build Output and Result
+• Under "Build History", click the build number (e.g., #1)
+• Click "Console Output" to view the build log
+• A successful build will end with a success message and show a green status indicator
+
+
+7th program
+
+3. Ansible Installation**
+
+Update the system and install Ansible:
+
+bash
+sudo apt update
+sudo apt install ansible -y
+ansible --version
+
+4. Inventory File Configuration*
+
+Create an inventory file to define your hosts:
+
+bash
+vi inventory.ini
+
+Add this content:
+localhost ansible_connection=local
+Save and exit:**
+ Press Esc, type :wq, then press Enter
+
+5. Validate Inventory File**
+
+Check if the inventory is valid:
+
+bash
+ansible-inventory -i inventory.ini --list
+
+
+Expected output should show localhost listed.
+
+---
+
+## *6. Test Connection with Ping Module*
+
+bash
+ansible all -i inventory.ini -m ping
+
+
+Expected output:
+
+json
+localhost | SUCCESS => {
+  "changed": false,
+  "ping": "pong"
+}
+`*7. Create a Basic Playbook**
+
+Create a file:
+
+bash
+nano basic_playbook.yml
+
+
+Paste this YAML content:
+
+yaml
+- name: Create a directory
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Create the 'my_test_directory'
+      ansible.builtin.file:
+        path: /tmp/my_test_directory
+        state: directory
+Save:**
+* Press Ctrl + O, then Enter
+* Exit with Ctrl + X
+
+8. Run the Playbook*
+
+bash
+ansible-playbook -i inventory.ini basic_playbook.yml
+
+
+Expected output:
+
+* Shows ok or changed status confirming directory creation
+
+9. Verify Directory Creation*
+
+```bash
+ls /tmp
+Look for
+my_test_directory
+
+
+
+
+
+7) Configuration Management with Ansible: Basics of Ansible: Inventory,
+Playbooks, and Modules, Automating Server Configurations with
+Playbooks, Hands-On: Writing and Running a Basic Playbook.
+
+8) Practical Exercise: Set Up a Jenkins CI Pipeline for a Maven Project,
+Use Ansible to Deploy Artifacts Generated by Jenkins.
+Aim
+Set up a Jenkins CI pipeline for a Maven project and deploy the .jar using Ansible on Ubuntu.
+Software Needed
+* Ubuntu
+* Java (OpenJDK 17)
+* Maven
+* Jenkins
+* Ansible
+Complete Procedure
+Step 1: Install Dependencies
+sudo apt update
+sudo apt install openjdk-17-jdk maven ansible -y
+Step 2: Install Jenkins (Manual Way)
+wget -q -O - https://pkg.jenkins.io/debian/jenkins.io-2023.key | sudo tee
+/usr/share/keyrings/jenkins-keyring.asc > /dev/null
+echo "deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian
+binary/" | sudo tee /etc/apt/sources.list.d/jenkins.list > /dev/null
+sudo apt update
+sudo apt install jenkins -y
+Start Jenkins:
+sudo systemctl start jenkins
+sudo systemctl status jenkins
+Step 3: Unlock Jenkins
+sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+Paste the password in browser: http://localhost:8080
+→ Install Suggested Plugins
+→ Create Admin User
+→ Complete Setup
+Step 4: Create Maven Project
+mvn archetype:generate -DgroupId=com.example -DartifactId=MyApp -
+DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
+cd MyApp
+mvn package
+Move project to Jenkins workspace:
+sudo mv /home/vboxuser/MyApp /var/lib/jenkins/workspace/
+sudo chown -R jenkins:jenkins /var/lib/jenkins/workspace/MyApp
+Step 5: Create Jenkins Job
+1. Open Jenkins → Click “New Item”
+2. Name: MyApp-CI → Choose Freestyle project → OK
+3. Go to Build section → Add the following shell command:
+cd /var/lib/jenkins/workspace/MyApp
+mvn package
+4. Save → Click Build Now
+Step 6: Ansible Deployment Setup
+Inventory File
+cd ~
+vi inventory.ini
+Paste:
+localhost ansible_connection=local
+Playbook
+vi deploy.yml
+Paste:
+- hosts: localhost
+ tasks:
+ - name: Copy JAR file to /opt
+ copy:
+ src: /var/lib/jenkins/workspace/MyApp/target/MyApp-1.0-SNAPSHOT.jar
+ dest: /opt/MyApp.jar
+> ⚠ Ensure /opt exists and is writable:
+sudo mkdir -p /opt
+sudo chmod 777 /opt
+Step 7: Run the Playbook
+ansible-playbook -i inventory.ini deploy.yml
+Use:
+ls /opt
+
+
+9th program 
+
+
+9) Introduction to Azure DevOps: Overview of Azure DevOps Services,
+Setting Up an Azure DevOps Account and Project.
+1. What is Azure DevOps?
+Azure DevOps is a cloud-based platform by Microsoft that provides a complete set of tools
+for DevOps practices—from planning to coding, building, testing, and deploying.
+2. Core Azure DevOps Services
+Service Description
+Azure Repos Store and manage source code using Git
+Azure Pipelines CI/CD pipelines to automate build, test, and deploy
+Azure Boards Project management and Task management
+Azure Test Plans Perform manual and exploratory testing
+Azure Artifacts Share and manage packages (like Maven, npm)
+3. Setting Up Azure DevOps
+Step 1: Create a Microsoft Account (if needed)
+• Go to: https://signup.live.com
+• Create a free account
+Step 2: Sign Up for Azure DevOps
+• Visit: https://dev.azure.com
+• Sign in with your Microsoft account
+• You’ll be asked to create an Organization (e.g., devops-org)
+• Click Continue
+Step 3: Create a New Project
+• After login, click New Project
+• Fill in:
+▪ Project Name: DevOps-Practice
+▪ Description: My first DevOps project using Azure
+▪ Visibility: Private (recommended) or Public
+▪ Version control : github or azure repos
+▪ Choose process :like scrum, agile
+• Click Create
+After project creation, you’ll see:
+• Boards: For task tracking
+• Repos: For Git-based code
+• Pipelines: For CI/CD setup
+• Test Plans and Artifacts
+
+10th program 
+
+10) Creating Build Pipelines: Building a Maven/Gradle Project with Azure
+Pipelines, Integrating Code Repositories (e.g., GitHub, Azure Repos),
+Running Unit Tests and Generating Reports.
+AIM
+To build an automated pipeline using Azure Pipelines that:
+• Connects to a code repository (GitHub or Azure Repos)
+• Builds the project using Maven or Gradle
+• Runs unit tests
+• Creates test reports
+THEORY
+A build pipeline helps automate the process of:
+1. Getting the latest code from a repository
+2. Building the project
+3. Running unit tests
+4. Generating test reports
+Azure Pipelines is a tool that supports Continuous Integration (CI), where code is
+automatically tested after every change. It reduces errors and improves software quality.
+STEPS TO CREATE A BUILD PIPELINE
+Step 1: Set Up Azure DevOps and Connect Repository
+1. Go to https://dev.azure.com
+2. Sign in with a Microsoft account
+3. Create an organization and a new project
+4. Go to Pipelines > Create Pipeline
+5. Choose your repository:
+• GitHub (authorize access)
+• Azure Repos (if already inside Azure)
+Step 2: Create the Pipeline File (YAML)
+This file tells Azure what steps to follow.
+For Maven Projects:
+trigger:
+- main
+pool:
+ vmImage: 'ubuntu-latest'
+steps:
+- task: Maven@3
+ inputs:
+ mavenPomFile: 'pom.xml'
+ goals: 'clean install'
+ publishJUnitResults: true
+ testResultsFiles: '/surefire-reports/TEST-*.xml'
+What it does:
+• Runs on every push to the main branch
+• Builds the code using mvn clean install
+• Publishes test results from surefire-reports
+Step 3: Run the Pipeline
+• Save and commit the YAML file to your repo
+• Azure will automatically run the pipeline
+• You can check the build status and test reports in the Azure portal
+This forms a complete CI pipeline, helping automate code quality checks in real time.
+
+
+
+11th progem 
+
+
+11) TASK: Simple Steps to Create a Release Pipeline for CD with Azure
+App Service & Key Vault(Easy Step-by-Step Guide)
+Step 1: Prerequisites (Have These Ready)
+✔ Azure DevOps project
+✔ A working Build Pipeline
+✔ An Azure App Service created
+✔ An Azure Key Vault with some secrets
+✔ Azure DevOps is connected to your Azure account
+Step 2: Create a Release Pipeline
+1. Go to Pipelines > Releases
+2. Click “New pipeline”
+3. Choose “Empty Job”
+Step 3: Add Build Artifact
+1. Click “+ Add” under Artifacts
+2. Choose your Build Pipeline
+3. Click “Add”
+Step 4: Add Deployment Task
+1. Click on Stage 1 → Rename to Deploy to App Service
+2. Click “1 job, 0 task”
+3. Click + to add task → Search: Azure App Service Deploy
+4. Fill details:
+ * Subscription: Select and authorize
+ * App type: Web App
+ * App name: Choose your App Service
+ * Package: use this →
+ $(System.DefaultWorkingDirectory)/_yourproject/drop/*.zip
+Step 5: Add Azure Key Vault Secrets
+1. Go to Pipelines > Library
+2. Click + Variable Group
+3. Check: Link secrets from Azure Key Vault
+4. Choose your Key Vault and select secrets
+5. Save group
+You can now use secrets in your pipeline like this: $(SecretName)
+Step 6: Enable Continuous Deployment (CD)
+1. In the release pipeline, click the ⚙ next to Artifacts
+2. Turn ON “Continuous deployment trigger”
+3. Save the pipeline
+Step 7: Run and Test It
+1. Click “Create Release”
+2. Select the stage → Click Create
+3. Watch the deployment progress under Releases
+Short Report Summary
+> We built a Release Pipeline to deploy a Java app to Azure App Service. Secrets were stored
+securely using Azure Key Vault and linked in the pipeline using a variable group. Continuous
+Deployment was enabled so that each build automatically triggers deployment. This ensures
+fast and secure delivery to production.
